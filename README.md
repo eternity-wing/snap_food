@@ -11,17 +11,17 @@
 4. Implementing Controller for APIs 
    1. Ingredients
    2. Foods
-   3. Chosing Library for REST API
+   3. Choosing Library for REST API
 5. Implementing Services
    1. Service for initializing the data
       1. purge the database
       2. read json files
       3. store in database
-   2. Stock Provider(for refilling out of stock ingredients)
+   2. Stock Supplier(for refilling out of stock ingredients)
    3. Transaction executor 
    4. Order Service
 6. Implementing Console Commands
-   1. Command for running The StockProvider service
+   1. Command for running The StockSupplier service
    2. Command for running The DataInitializer service
 7. Write test
 8. Docker-compose
