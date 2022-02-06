@@ -11,10 +11,12 @@
    2. ~~Foods~~
    3. ~~Orders~~
    4. Implementing Remain DQL functions
-4. Implementing Controller for APIs 
-   1. Ingredients
-   2. Foods
+4. ~~Implementing Controller for APIs~~ 
+   1. ~~Menu~~
+   2. ~~Orders~~
    3. Choosing Library for REST API
+   4. Provide BaseController for handling common actions
+   5. Paginate Menu api
 5. Implementing Services
    1. Service for initializing the data
       1. purge the database
