@@ -47,4 +47,17 @@ class IngredientRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param int|null $limit
+     * @return Ingredient[]
+     */
+    public function findOutOfStockIngredients(?int $limit=20): array {
+        $parameters = ['now' => new \DateTime('now'), 'zero' => 0];
+        $qb = $this->createQueryBuilder('i');
+        $qb->where('i.expiresAt > :now');
+        $qb->andWhere('i.stock = :zero');
+        $qb->setParameters($parameters);
+        return $qb->getQuery()->setMaxResults($limit)->getResult();
+    }
 }
