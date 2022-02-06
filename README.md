@@ -1,6 +1,6 @@
 # STEPS
 
-1. Initial Symfony Skeleton
+1. ~~Initial Symfony Skeleton~~
 2. Implementing Models
    1. Ingredients
    2. Foods
