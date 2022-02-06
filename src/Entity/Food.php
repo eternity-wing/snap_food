@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: FoodRepository::class)]
 #[UniqueEntity('title')]
@@ -23,6 +24,7 @@ class Food
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'foods')]
     private ArrayCollection $ingredients;
 
+    #[Ignore]
     #[ORM\OneToMany(mappedBy: 'food', targetEntity: Order::class)]
     private ArrayCollection $orders;
 
