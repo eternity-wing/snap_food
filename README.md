@@ -6,9 +6,11 @@
    2. ~~Foods~~
    3. ~~Orders~~
    4. ~~Table constraints and indexes~~
-3. Implementing Repository Classes
-   1. Ingredients
-   2. Foods
+3. ~~Implementing Repository Classes~~
+   1. ~~Ingredients~~
+   2. ~~Foods~~
+   3. ~~Orders~~
+   4. Implementing Remain DQL functions
 4. Implementing Controller for APIs 
    1. Ingredients
    2. Foods

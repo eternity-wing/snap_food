@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Food;
+use App\Entity\Ingredient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,17 @@ class FoodRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    //TODO: Complete the query
+    /**
+     * @param int|null $limit
+     * @return Food[]
+     */
+    public function findAvailableFoods(?int $limit=20): array
+    {
+        $qb = $this->createQueryBuilder('f');
+        $qb->join('f.ingredients', 'fi');
+        return $qb->getQuery()->setMaxResults($limit)->getResult();
+    }
+
 }
