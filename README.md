@@ -1,10 +1,11 @@
 # STEPS
 
 1. ~~Initial Symfony Skeleton~~
-2. Implementing Models
-   1. Ingredients
-   2. Foods
-   3. Table constraints and indexes
+2. ~~Implementing Models~~
+   1. ~~Ingredients~~
+   2. ~~Foods~~
+   3. ~~Orders~~
+   4. ~~Table constraints and indexes~~
 3. Implementing Repository Classes
    1. Ingredients
    2. Foods
