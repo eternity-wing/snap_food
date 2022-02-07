@@ -8,8 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MenuController extends BaseAPIController
 {
-
-    //TODO: findAvailableFoods is not implemented yet and returns all foods
+    
     #[Route('/api/v1/menu', name: 'api_v1_menu_index')]
     public function index(FoodRepository $foodRepository): Response
     {
