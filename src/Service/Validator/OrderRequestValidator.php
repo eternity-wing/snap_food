@@ -28,7 +28,7 @@ class OrderRequestValidator implements OrderRequestValidatorInterface
     {
         $food = $this->registry->getRepository(Food::class)->find($foodId);
         if (!$food) {
-            throw new InvalidRequestException(code: 404, errors: ['food_id' => 'Invalid foodId']);
+            throw new InvalidRequestException('', 404, null, ['food_id' => 'Invalid foodId']);
         }
     }
 
@@ -36,7 +36,7 @@ class OrderRequestValidator implements OrderRequestValidatorInterface
     {
         $unavailableIngredientsCount = $this->registry->getRepository(Food::class)->findNumberOfUnavailableIngredients($foodId);
         if ($unavailableIngredientsCount > 0) {
-            throw new InvalidRequestException(code: 400, errors: ['ingredients' => 'ingredients are not available']);
+            throw new InvalidRequestException('', 400, null, ['ingredients' => 'ingredients are not available']);
         }
     }
 }

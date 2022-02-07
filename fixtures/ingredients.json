@@ -57,7 +57,7 @@
 	}, {
 		"title": "Lettuce",
 		"best-before": "2020-07-25",
-		"use-by": "2020-07-27",
+		"expires-at": "2020-07-27",
 		"stock": 3
 	}, {
 		"title": "Tomato",

@@ -18,20 +18,20 @@ class Food
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $title;
 
-    #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'foods')]
-    private ArrayCollection $ingredients;
-
     #[Ignore]
-    #[ORM\OneToMany(mappedBy: 'food', targetEntity: Order::class)]
-    private ArrayCollection $orders;
+    #[ORM\ManyToMany(targetEntity: Order::class)]
+    private $orders;
+
+    #[ORM\ManyToMany(targetEntity: Ingredient::class)]
+    private $ingredients;
 
     public function __construct()
     {
-        $this->ingredients = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,30 +47,6 @@ class Food
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Ingredient[]
-     */
-    public function getIngredients(): Collection
-    {
-        return $this->ingredients;
-    }
-
-    public function addIngredient(Ingredient $ingredient): self
-    {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-        }
-
-        return $this;
-    }
-
-    public function removeIngredient(Ingredient $ingredient): self
-    {
-        $this->ingredients->removeElement($ingredient);
 
         return $this;
     }
@@ -101,6 +77,30 @@ class Food
                 $order->setFood(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ingredient[]
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->ingredients;
+    }
+
+    public function addIngredient(Ingredient $ingredient): self
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+        }
+
+        return $this;
+    }
+
+    public function removeIngredient(Ingredient $ingredient): self
+    {
+        $this->ingredients->removeElement($ingredient);
 
         return $this;
     }
