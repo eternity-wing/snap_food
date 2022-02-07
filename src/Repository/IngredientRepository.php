@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Food;
 use App\Entity\Ingredient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class IngredientRepository extends ServiceEntityRepository
 {
+    use PurgerTrait;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Ingredient::class);
@@ -59,5 +61,14 @@ class IngredientRepository extends ServiceEntityRepository
         $qb->andWhere('i.stock = :zero');
         $qb->setParameters($parameters);
         return $qb->getQuery()->setMaxResults($limit)->getResult();
+    }
+    /**
+     * @return Ingredient[]
+     */
+    public function findByFoodId(int $foodId): array {
+        $qb = $this->createQueryBuilder('i');
+        $qb->innerJoin(Food::class, 'f', 'WITH', 'f.id = :foodId');
+        $qb->setParameters(['foodId' => $foodId]);
+        return $qb->getQuery()->getResult();
     }
 }

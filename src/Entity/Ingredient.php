@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\IngredientRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Ignore;
@@ -18,7 +16,7 @@ class Ingredient
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $title;
 
     #[Ignore]
@@ -30,15 +28,6 @@ class Ingredient
 
     #[ORM\Column(type: 'integer')]
     private ?int $stock;
-
-    #[Ignore]
-    #[ORM\ManyToMany(targetEntity: Food::class, mappedBy: 'ingredients')]
-    private ArrayCollection $foods;
-
-    public function __construct()
-    {
-        $this->foods = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -93,30 +82,4 @@ class Ingredient
         return $this;
     }
 
-    /**
-     * @return Collection|Food[]
-     */
-    public function getFoods(): Collection
-    {
-        return $this->foods;
-    }
-
-    public function addFood(Food $food): self
-    {
-        if (!$this->foods->contains($food)) {
-            $this->foods[] = $food;
-            $food->addIngredient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFood(Food $food): self
-    {
-        if ($this->foods->removeElement($food)) {
-            $food->removeIngredient($this);
-        }
-
-        return $this;
-    }
 }

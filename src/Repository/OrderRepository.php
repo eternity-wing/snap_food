@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OrderRepository extends ServiceEntityRepository
 {
+    use PurgerTrait;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Order::class);

@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Food;
-use App\Entity\Ingredient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -15,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FoodRepository extends ServiceEntityRepository
 {
+    use PurgerTrait;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Food::class);
@@ -49,7 +49,7 @@ class FoodRepository extends ServiceEntityRepository
     }
     */
 
-    //TODO: Complete the query
+    //TODO: query builder of this function has not implemented yet!
     /**
      * @param int|null $limit
      * @return Food[]
@@ -59,6 +59,22 @@ class FoodRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('f');
         $qb->join('f.ingredients', 'fi');
         return $qb->getQuery()->setMaxResults($limit)->getResult();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
+    public function findNumberOfUnavailableIngredients(int $foodId): int{
+        $parameters = ['foodId' => $foodId, 'zero' => 0];
+        $qb = $this->createQueryBuilder('f');
+        $qb->select('COUNT(fi.id)');
+        $qb->where('f.id = :foodId');
+        $qb->innerJoin('f.ingredients', 'fi');
+        $qb->andWhere('fi.stock = :zero');
+        $qb->andWhere('fi.expiresAt < CURRENT_TIMESTAMP()');
+        $qb->setParameters($parameters);
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
 }
