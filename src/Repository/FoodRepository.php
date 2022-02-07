@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Food;
+use App\Entity\Ingredient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -49,7 +50,7 @@ class FoodRepository extends ServiceEntityRepository
     }
     */
 
-    //TODO: query builder of this function has not implemented yet!
+
     /**
      * @param int|null $limit
      * @return Food[]
@@ -57,7 +58,14 @@ class FoodRepository extends ServiceEntityRepository
     public function findAvailableFoods(?int $limit=20): array
     {
         $qb = $this->createQueryBuilder('f');
-        $qb->join('f.ingredients', 'fi');
+        $qb->innerJoin('f.ingredients', 'fi');
+        $qb->addSelect('MIN(i.stock) AS stock , MIN(i.expiresAt) AS expiresAt, MIN(i.bestBefore) AS bestBefore')
+            ->from(Ingredient::class, 'i');
+        $qb->where('fi.id = i.id');
+        $qb->groupBy('f.id');
+        $qb->having('stock > 0');
+        $qb->andHaving('expiresAt > CURRENT_TIMESTAMP()');
+        $qb->orderBy('bestBefore', 'DESC');
         return $qb->getQuery()->setMaxResults($limit)->getResult();
     }
 
