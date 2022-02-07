@@ -61,4 +61,20 @@ class FoodRepository extends ServiceEntityRepository
         return $qb->getQuery()->setMaxResults($limit)->getResult();
     }
 
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
+    public function findNumberOfUnavailableIngredients(int $foodId): int{
+        $parameters = ['foodId' => $foodId, 'zero' => 0];
+        $qb = $this->createQueryBuilder('f');
+        $qb->select('COUNT(fi.id)');
+        $qb->where('f.id = :foodId');
+        $qb->innerJoin('f.ingredients', 'fi');
+        $qb->andWhere('fi.stock = :zero');
+        $qb->andWhere('fi.expiresAt < CURRENT_TIMESTAMP()');
+        $qb->setParameters($parameters);
+        return $qb->getQuery()->getSingleScalarResult()[0];
+    }
+
 }

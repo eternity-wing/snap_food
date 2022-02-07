@@ -60,4 +60,14 @@ class IngredientRepository extends ServiceEntityRepository
         $qb->setParameters($parameters);
         return $qb->getQuery()->setMaxResults($limit)->getResult();
     }
+    /**
+     * @return Ingredient[]
+     */
+    public function findByFoodId(int $foodId): array {
+        $qb = $this->createQueryBuilder('i');
+        $qb->innerJoin('i.foods', 'f');
+        $qb->where('f.id = :foodId');
+        $qb->setParameters(['foodId' => $foodId]);
+        return $qb->getQuery()->getResult();
+    }
 }
