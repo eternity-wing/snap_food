@@ -6,8 +6,10 @@ use App\Repository\IngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Doctrine\ORM\Mapping\Index;
 
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
+#[Index(fields: ["id", "stock", "expiresAt", "bestBefore"], name: "search_index")]
 #[UniqueEntity('title')]
 class Ingredient
 {
